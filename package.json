@@ -1,0 +1,8 @@
+{
+  "name": "zoho-fuzzy-matcher",
+  "version": "1.0.0",
+  "main": "api/fuzzy.js",
+  "dependencies": {
+    "fuse.js": "^7.0.0"
+  }
+}
