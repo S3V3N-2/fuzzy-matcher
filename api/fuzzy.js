@@ -1,8 +1,17 @@
-const Fuse = require('fuse.js');
+import { kv } from '@vercel/kv';
+import Fuse from 'fuse.js';
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
+  // 1. Controllo di sicurezza: procediamo solo se è un POST
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Metodo non consentito' });
+  }
+
+  // 2. Incremento del contatore (ora funziona perché la funzione è async)
+  try {
+    await kv.incr('counter_noleggi');
+  } catch (error) {
+    console.error("Errore KV:", error);
   }
 
   const noleggi = [
@@ -23,7 +32,7 @@ export default function handler(req, res) {
   const inputCliente = (req.body.cliente || "").trim();
   const inputLower = inputCliente.toLowerCase();
 
-  // 1. Logica Match Esatto (Case-Insensitive)
+  // 3. Logica Match Esatto
   const exactMatch = noleggi.find(n => n.name.toLowerCase() === inputLower);
 
   if (exactMatch) {
@@ -34,11 +43,10 @@ export default function handler(req, res) {
     });
   }
 
-  // 2. Logica Fuzzy (se non c'è match esatto)
+  // 4. Logica Fuzzy
   const fuse = new Fuse(noleggi, {
     keys: ['name'],
-    threshold: 0.4,
-    includeScore: true
+    threshold: 0.4
   });
 
   const results = fuse.search(inputCliente);

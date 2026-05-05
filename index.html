@@ -6,16 +6,39 @@
     <title>Fuzzy Matcher Service</title>
     <style>
         body { font-family: sans-serif; background-color: #0e0e0e; color: #ffffff; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .container { text-align: center; border: 1px solid #333; padding: 2rem; border-radius: 8px; }
+        .container { text-align: center; border: 1px solid #333; padding: 2rem; border-radius: 8px; max-width: 400px; }
         .status { color: #00ff00; font-weight: bold; }
+        .counter-val { color: #00bfff; font-size: 1.2rem; font-weight: bold; }
         h1 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+        hr { border: 0; border-top: 1px solid #333; margin: 20px 0; }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Fuzzy Matcher API</h1>
         <p>Stato del Sistema: <span class="status">ONLINE</span></p>
+        <hr>
+        <p>Richieste elaborate dal sistema:</p>
+        <div id="counter" class="counter-val">Caricamento...</div>
+        <hr>
         <p style="color: #666; font-size: 0.8rem;">Accesso Riservato - Solo Richieste Autorizzate</p>
     </div>
+
+    <script>
+        async function fetchStats() {
+            try {
+                const response = await fetch('/api/stats');
+                const data = await response.json();
+                // Aggiorna il div con il numero totale di chiamate
+                document.getElementById('counter').innerText = data.total || 0;
+            } catch (error) {
+                console.error("Errore nel caricamento statistiche:", error);
+                document.getElementById('counter').innerText = "N/D";
+            }
+        }
+
+        // Esegui la funzione all'apertura della pagina
+        fetchStats();
+    </script>
 </body>
 </html>
