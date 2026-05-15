@@ -17,7 +17,7 @@ export default async function handler(req, res) {
   const noleggi = [
     { name: "Vivarent" },
     { name: "Italy Car Rent" },
-    { name: "All Rent - U-Save" },
+    { name: "All Rent - U-SAVE" },
     { name: "BuyFleet" },
     { name: "Ita Rent - Differental" },
     { name: "Clarent" },
@@ -46,7 +46,7 @@ export default async function handler(req, res) {
   // 4. Logica Fuzzy
   const fuse = new Fuse(noleggi, {
     keys: ['name'],
-    threshold: 0.4
+    threshold: 0.5
   });
 
   const results = fuse.search(inputCliente);
