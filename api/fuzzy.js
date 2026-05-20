@@ -29,7 +29,7 @@ export default async function handler(req, res) {
     { name: "Clarent" },
     { name: "Stairway Rent" },
     { name: "Etna Rent" },
-    { name: "Targa Rent - 8Rent" },
+    { name: "Target Rent - 8Rent" },
     { name: "Noleggiora" },
     { name: "GN Claret" },
     { name: "Moventur" }
